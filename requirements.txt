@@ -1,1 +1,6 @@
 streamlit
+pandas
+gspread
+google-auth
+google-auth-oauthlib
+Pillow
