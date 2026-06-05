@@ -59,7 +59,10 @@ def load_data():
 
 @st.cache_data
 def load_image(path):
-    return Image.open(path)
+    import os
+    full_path = os.path.join(os.path.dirname(__file__), path)
+    return Image.open(full_path)
+
 
 df = load_data()
 
@@ -184,6 +187,8 @@ st.subheader("Which Book Do You Rank Higher?")
 col1, col2, col3 = st.columns(3)
 
 with col1:
+
+    st.write(book1["image_path"])
     st.image(load_image(book1["image_path"]))
     st.subheader(book1["title"])
     st.caption(f'Read: {book1["date_read"]}')
