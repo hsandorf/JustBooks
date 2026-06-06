@@ -188,7 +188,6 @@ col1, col2, col3 = st.columns(3)
 
 with col1:
 
-    st.write(book1["image_path"])
     st.image(load_image(book1["image_path"]))
     st.subheader(book1["title"])
     st.caption(f'Read: {book1["date_read"]}')
