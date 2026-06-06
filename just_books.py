@@ -179,7 +179,7 @@ st.caption(f"Match {st.session_state.match_count + 1} of {MAX_MATCHES}")
 if st.session_state.last_winner and st.session_state.last_winner != "Neither":
     st.success(f"You chose **{st.session_state.last_winner}**!")
 elif st.session_state.last_winner == "Neither":
-    st.info("Skipped — neither book read.")
+    st.info("Skipped — one or both book unread.")
 
 st.subheader("Which Book Do You Rank Higher?")
 
