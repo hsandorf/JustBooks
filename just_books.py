@@ -69,7 +69,7 @@ df = load_data()
 df["date_read"] = pd.to_datetime(df["date_read"], errors='coerce').dt.strftime("%b %Y")
 
 # ── Constants ─────────────────────────────────────────────────────────────────
-MAX_MATCHES = 75
+MAX_MATCHES = 100
 
 # ── Name gate — don't show matchups until name is entered ─────────────────────
 if "user_name" not in st.session_state:
