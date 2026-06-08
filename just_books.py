@@ -145,10 +145,7 @@ def record_result(book1, book2, winner, book1_unread=False, book2_unread=False):
 def save_results():
     results_df = pd.DataFrame(st.session_state.results)
     
-    gc = gspread.authorize(Credentials.from_service_account_file(
-        "C:\\Users\\hsand\\.vscode\\secrets\\Credentials.json",
-        scopes=SCOPES
-    ))
+    gc = gspread.authorize(creds)
     workbook = gc.open('100 Books')
     
     try:
