@@ -10,10 +10,11 @@ from google.oauth2.service_account import Credentials
 
 st.markdown("""
    <style>
-   [data-testid="stImage"] img {
-        height: 200px;
-        width: 150px;
-        object-fit: cover;
+ [data-testid="stImage"] img {
+    width: 150px;
+    height: 220px;
+    object-fit: contain;
+    background-color: white;
       } 
     [data-testid="stHorizontalBlock"] > div .stButton button {
         display: block;
