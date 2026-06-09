@@ -199,7 +199,7 @@ with col1:
    
 
 st.write("") # vertical spacing
-st.write("")
+#st.write("")
 
 with col3:
 
