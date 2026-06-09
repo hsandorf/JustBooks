@@ -30,7 +30,7 @@ st.markdown("""
 
 
 st.title("First 100 Never Judge Reads")
-st.write("Click on the book you enjoyed more, or indicate if you haven't read one or either. "
+st.write("**THIS APP WORKS BEST IN LANDSCAPE MODE ** Click on the book you enjoyed more, or indicate if you haven't read one or either. "
         "Books you've marked as unread will be removed from your future matchups. "
          f"Your choices will help us create a ranked list of our first 100 reads!")
 
@@ -186,7 +186,7 @@ col1, col2, col3 = st.columns(3)
 with col1:
 
     st.image(load_image(book1["image_path"]))
-    st.subheader(book1["title"])
+    st.caption(book1["title"])
     st.caption(f'Read: {book1["date_read"]}')
     st.caption(book1["author"])
     if st.button(book1["title"], key="btn1"):
@@ -197,7 +197,7 @@ with col1:
 
 with col3:
     st.image(load_image(book2["image_path"]))
-    st.subheader(book2["title"])
+    st.caption(book2["title"])
     st.caption(f'Read: {book2["date_read"]}')
     st.caption(book2["author"])
     if st.button(book2["title"], key="btn2"):
