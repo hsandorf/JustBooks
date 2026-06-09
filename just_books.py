@@ -185,14 +185,14 @@ col1, col2, col3 = st.columns([1,1,1], gap="small")
 
 with col1:
 
-    st.image(load_image(book1["image_path"]), width=120)
+    st.image(load_image(book1["image_path"]), width=150)
     st.caption(book1["title"])
     st.caption(f'Read: {book1["date_read"]}')
     st.caption(book1["author"])
     
 with col2:
 
-    st.image(load_image(book2["image_path"]), width=120)
+    st.image(load_image(book2["image_path"]), width=150)
     st.caption(book2["title"])
     st.caption(f'Read: {book2["date_read"]}')
     st.caption(book2["author"])
