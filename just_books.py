@@ -202,19 +202,19 @@ st.write("") # vertical spacing
 #st.write("")
 
 
-   
-choice = st.radio(
-    "Which Book Do You Rank Higher?",
-    options=[
-        book1["title"],
-        book2["title"],
-        "I haven't read either",
-        f"I haven't read: {book1['title']}",
-        f"I haven't read: {book2['title']}",
-    ],
-    key="book_choice"
-)
-with col3:
+with col3:   
+   choice = st.radio(
+       "Which Book Do You Rank Higher?",
+       options=[
+           book1["title"],
+           book2["title"],
+           "I haven't read either",
+           f"I haven't read: {book1['title']}",
+           f"I haven't read: {book2['title']}",
+       ],
+       key="book_choice"
+   )
+
    if st.button("Submit"):
        if choice == book1["title"]:
            record_result(book1, book2, winner=book1["title"])
