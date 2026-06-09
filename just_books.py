@@ -192,7 +192,7 @@ st.write("") # vertical spacing
 
 with col3:
 
-   st.subheader("Which Book Do You Rank Higher?")
+   st.write("Which Book Do You Rank Higher?")
     # --- MAIN VOTE BUTTONS (big decision) ---
    if st.button(f"{book1['title']}", use_container_width=True):
       record_result(book1, book2, winner=book1["title"])
@@ -227,29 +227,29 @@ with col3:
       st.session_state.current_pair = get_next_pair()
       st.rerun()
    
-      if st.button(f"Haven’t read {book1['title']}", use_container_width=True):
-         st.session_state.unread_books.add(book1["title"])
-         record_result(
-         book1,
-         book2,
-         winner=None,
-         book1_unread=True
-         )
-         st.session_state.last_winner = "Neither"
-         st.session_state.current_pair = get_next_pair()
-         st.rerun()
-      
-      if st.button(f"Haven’t read {book2['title']}", use_container_width=True):
-         st.session_state.unread_books.add(book2["title"])
-         record_result(
-         book1,
-         book2,
-         winner=None,
-         book2_unread=True
-         )
-         st.session_state.last_winner = "Neither"
-         st.session_state.current_pair = get_next_pair()
-         st.rerun()
+   if st.button(f"Haven’t read {book1['title']}", use_container_width=True):
+      st.session_state.unread_books.add(book1["title"])
+      record_result(
+      book1,
+      book2,
+      winner=None,
+      book1_unread=True
+      )
+      st.session_state.last_winner = "Neither"
+      st.session_state.current_pair = get_next_pair()
+      st.rerun()
+   
+   if st.button(f"Haven’t read {book2['title']}", use_container_width=True):
+      st.session_state.unread_books.add(book2["title"])
+      record_result(
+      book1,
+      book2,
+      winner=None,
+      book2_unread=True
+      )
+      st.session_state.last_winner = "Neither"
+      st.session_state.current_pair = get_next_pair()
+      st.rerun()
 
 
 
