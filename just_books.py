@@ -181,7 +181,7 @@ elif st.session_state.last_winner == "Neither":
 st.subheader("Which Book Do You Rank Higher?")
 
 # ── Matchup display ───────────────────────────────────────────────────────────
-col1, col2, col3 = st.columns([1,1,1], gap="small")
+col1, col2, col3 = st.columns([1,1,3], gap="small")
 
 with col1:
 
@@ -208,9 +208,9 @@ with col3:
        options=[
            book1["title"],
            book2["title"],
-           "I haven't read either",
-           f"I haven't read: {book1['title']}",
-           f"I haven't read: {book2['title']}",
+           "Haven't read either",
+           f"Haven't read {book1['title']}",
+           f"Haven't read {book2['title']}",
        ],
        key="book_choice"
    )
