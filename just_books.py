@@ -168,8 +168,6 @@ if st.session_state.last_winner and st.session_state.last_winner != "Neither":
 elif st.session_state.last_winner == "Neither":
     st.info("Skipped — one or both book unread.")
 
-st.subheader("Which Book Do You Rank Higher?")
-
 # ── Matchup display ───────────────────────────────────────────────────────────
 col1, col2, col3 = st.columns([1,1,2], gap="small")
 
@@ -194,6 +192,7 @@ st.write("") # vertical spacing
 
 with col3:
 
+   st.subheader("Which Book Do You Rank Higher?")
     # --- MAIN VOTE BUTTONS (big decision) ---
     if st.button(f"{book1['title']}", use_container_width=True):
         record_result(book1, book2, winner=book1["title"])
@@ -210,7 +209,7 @@ with col3:
     st.divider()
 
     # --- SECONDARY OPTIONS (unread handling) ---
-
+   st.subheader("Haven't read either? No worries! Select Below")
        # --- BOTH UNREAD ---
     if st.button("Haven’t read either", use_container_width=True):
         st.session_state.unread_books.update([
