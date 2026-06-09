@@ -210,26 +210,26 @@ st.write("") # vertical spacing
 st.write("")
 
 with col3:
-if st.button("I haven't read either", key="btn3"):
-    st.session_state.unread_books.update([book1["title"], book2["title"]])
-    record_result(book1, book2, winner=None, book1_unread=True, book2_unread=True)
-    st.session_state.last_winner = "Neither"
-    st.session_state.current_pair = get_next_pair()
-    st.rerun()
-
-if st.button(f" < I haven't read:\n{book1['title']}", key="btn4"):
-    st.session_state.unread_books.add(book1["title"])
-    record_result(book1, book2, winner=None, book1_unread=True)
-    st.session_state.last_winner = "Neither"
-    st.session_state.current_pair = get_next_pair()
-    st.rerun()
-
-if st.button(f" > I haven't read:\n{book2['title']}", key="btn5"):
-    st.session_state.unread_books.add(book2["title"])
-    record_result(book1, book2, winner=None, book2_unread=True)
-    st.session_state.last_winner = "Neither"
-    st.session_state.current_pair = get_next_pair()
-    st.rerun()
+   if st.button("I haven't read either", key="btn3"):
+       st.session_state.unread_books.update([book1["title"], book2["title"]])
+       record_result(book1, book2, winner=None, book1_unread=True, book2_unread=True)
+       st.session_state.last_winner = "Neither"
+       st.session_state.current_pair = get_next_pair()
+       st.rerun()
+   
+   if st.button(f" < I haven't read:\n{book1['title']}", key="btn4"):
+       st.session_state.unread_books.add(book1["title"])
+       record_result(book1, book2, winner=None, book1_unread=True)
+       st.session_state.last_winner = "Neither"
+       st.session_state.current_pair = get_next_pair()
+       st.rerun()
+   
+   if st.button(f" > I haven't read:\n{book2['title']}", key="btn5"):
+       st.session_state.unread_books.add(book2["title"])
+       record_result(book1, book2, winner=None, book2_unread=True)
+       st.session_state.last_winner = "Neither"
+       st.session_state.current_pair = get_next_pair()
+       st.rerun()
 
 
 
