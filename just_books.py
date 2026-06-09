@@ -9,12 +9,12 @@ from google.oauth2.service_account import Credentials
 # ── Page styling ───────────────────────────────────────────────────────────────
 
 st.markdown("""
-    <style>
-    [data-testid="stImage"] img {
+   <style>
+/*   [data-testid="stImage"] img {
         height: 200px;
         width: 150px;
         object-fit: cover;
-        }
+      } */
     [data-testid="stHorizontalBlock"] > div .stButton button {
         display: block;
         margin: 0 auto;
@@ -181,7 +181,7 @@ elif st.session_state.last_winner == "Neither":
 st.subheader("Which Book Do You Rank Higher?")
 
 # ── Matchup display ───────────────────────────────────────────────────────────
-col1, col2, col3 = st.columns(3)
+col1, col3 = st.columns(2)
 
 with col1:
 
@@ -195,7 +195,7 @@ with col1:
         st.session_state.current_pair = get_next_pair()
         st.rerun()
 
-with col3:
+
     st.image(load_image(book2["image_path"]))
     st.caption(book2["title"])
     st.caption(f'Read: {book2["date_read"]}')
@@ -206,30 +206,30 @@ with col3:
         st.session_state.current_pair = get_next_pair()
         st.rerun()
 
-with col2:
-    st.write("") # vertical spacing
-    st.write("")
+st.write("") # vertical spacing
+st.write("")
 
-    if st.button("I haven't read either", key="btn3"):
-        st.session_state.unread_books.update([book1["title"], book2["title"]])
-        record_result(book1, book2, winner=None, book1_unread=True, book2_unread=True)
-        st.session_state.last_winner = "Neither"
-        st.session_state.current_pair = get_next_pair()
-        st.rerun()
+with col3:
+if st.button("I haven't read either", key="btn3"):
+    st.session_state.unread_books.update([book1["title"], book2["title"]])
+    record_result(book1, book2, winner=None, book1_unread=True, book2_unread=True)
+    st.session_state.last_winner = "Neither"
+    st.session_state.current_pair = get_next_pair()
+    st.rerun()
 
-    if st.button(f" < I haven't read:\n{book1['title']}", key="btn4"):
-        st.session_state.unread_books.add(book1["title"])
-        record_result(book1, book2, winner=None, book1_unread=True)
-        st.session_state.last_winner = "Neither"
-        st.session_state.current_pair = get_next_pair()
-        st.rerun()
+if st.button(f" < I haven't read:\n{book1['title']}", key="btn4"):
+    st.session_state.unread_books.add(book1["title"])
+    record_result(book1, book2, winner=None, book1_unread=True)
+    st.session_state.last_winner = "Neither"
+    st.session_state.current_pair = get_next_pair()
+    st.rerun()
 
-    if st.button(f" > I haven't read:\n{book2['title']}", key="btn5"):
-        st.session_state.unread_books.add(book2["title"])
-        record_result(book1, book2, winner=None, book2_unread=True)
-        st.session_state.last_winner = "Neither"
-        st.session_state.current_pair = get_next_pair()
-        st.rerun()
+if st.button(f" > I haven't read:\n{book2['title']}", key="btn5"):
+    st.session_state.unread_books.add(book2["title"])
+    record_result(book1, book2, winner=None, book2_unread=True)
+    st.session_state.last_winner = "Neither"
+    st.session_state.current_pair = get_next_pair()
+    st.rerun()
 
 
 
