@@ -181,18 +181,18 @@ elif st.session_state.last_winner == "Neither":
 st.subheader("Which Book Do You Rank Higher?")
 
 # ── Matchup display ───────────────────────────────────────────────────────────
-col1, col3 = st.columns(2)
+col1, col2 = st.columns([1,1], gap="small")
 
 with col1:
 
-    st.image(load_image(book1["image_path"]))
+    st.image(load_image(book1["image_path"]), width=120)
     st.caption(book1["title"])
     st.caption(f'Read: {book1["date_read"]}')
     st.caption(book1["author"])
     
-with col3:
+with col2:
 
-    st.image(load_image(book2["image_path"]))
+    st.image(load_image(book2["image_path"]), width=120)
     st.caption(book2["title"])
     st.caption(f'Read: {book2["date_read"]}')
     st.caption(book2["author"])
@@ -203,39 +203,63 @@ st.write("") # vertical spacing
 
 
    
-if st.button(book1["title"], key="btn1"):
-   record_result(book1, book2, winner=book1["title"])
-   st.session_state.last_winner = book1["title"]
-   st.session_state.current_pair = get_next_pair()
-   st.rerun()
-   
-if st.button(book2["title"], key="btn2"):
-   record_result(book1, book2, winner=book2["title"])
-   st.session_state.last_winner = book2["title"]
-   st.session_state.current_pair = get_next_pair()
-   st.rerun()
+choice = st.radio(
+    "Which Book Do You Rank Higher?",
+    options=[
+        book1["title"],
+        book2["title"],
+        "I haven't read either",
+        f"I haven't read: {book1['title']}",
+        f"I haven't read: {book2['title']}",
+    ],
+    key="book_choice"
+)
 
+if st.button("Submit"):
+    if choice == book1["title"]:
+        record_result(book1, book2, winner=book1["title"])
+        st.session_state.last_winner = book1["title"]
 
-if st.button("I haven't read either", key="btn3"):
-   st.session_state.unread_books.update([book1["title"], book2["title"]])
-   record_result(book1, book2, winner=None, book1_unread=True, book2_unread=True)
-   st.session_state.last_winner = "Neither"
-   st.session_state.current_pair = get_next_pair()
-   st.rerun()
+    elif choice == book2["title"]:
+        record_result(book1, book2, winner=book2["title"])
+        st.session_state.last_winner = book2["title"]
 
-if st.button(f"I haven't read:\n{book1['title']}", key="btn4"):
-   st.session_state.unread_books.add(book1["title"])
-   record_result(book1, book2, winner=None, book1_unread=True)
-   st.session_state.last_winner = "Neither"
-   st.session_state.current_pair = get_next_pair()
-   st.rerun()
+    elif choice == "I haven't read either":
+        st.session_state.unread_books.update([
+            book1["title"],
+            book2["title"]
+        ])
+        record_result(
+            book1,
+            book2,
+            winner=None,
+            book1_unread=True,
+            book2_unread=True
+        )
+        st.session_state.last_winner = "Neither"
 
-if st.button(f"I haven't read:\n{book2['title']}", key="btn5"):
-   st.session_state.unread_books.add(book2["title"])
-   record_result(book1, book2, winner=None, book2_unread=True)
-   st.session_state.last_winner = "Neither"
-   st.session_state.current_pair = get_next_pair()
-   st.rerun()
+    elif choice == f"I haven't read: {book1['title']}":
+        st.session_state.unread_books.add(book1["title"])
+        record_result(
+            book1,
+            book2,
+            winner=None,
+            book1_unread=True
+        )
+        st.session_state.last_winner = "Neither"
+
+    elif choice == f"I haven't read: {book2['title']}":
+        st.session_state.unread_books.add(book2["title"])
+        record_result(
+            book1,
+            book2,
+            winner=None,
+            book2_unread=True
+        )
+        st.session_state.last_winner = "Neither"
+
+    st.session_state.current_pair = get_next_pair()
+    st.rerun()
 
 
 
