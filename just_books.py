@@ -15,17 +15,6 @@ st.markdown("""
     height: 220px;
     object-fit: contain;
     background-color: white;
-      } 
-    [data-testid="stHorizontalBlock"] > div .stButton button {
-        display: block;
-        margin: 0 auto;
-        max-width: 150px;
-        white-space: normal;
-        word-wrap: break-word;
-    }
-    [data-testid="stHorizontalBlock"] > div {
-        text-align: center;
-    }
     </style>
 """, unsafe_allow_html=True)
 
@@ -221,7 +210,23 @@ with col3:
     st.divider()
 
     # --- SECONDARY OPTIONS (unread handling) ---
-    st.markdown("##### Not sure / Haven’t read")
+
+       # --- BOTH UNREAD ---
+    if st.button("Haven’t read either", use_container_width=True):
+        st.session_state.unread_books.update([
+            book1["title"],
+            book2["title"]
+        ])
+        record_result(
+            book1,
+            book2,
+            winner=None,
+            book1_unread=True,
+            book2_unread=True
+        )
+        st.session_state.last_winner = "Neither"
+        st.session_state.current_pair = get_next_pair()
+        st.rerun()
 
     col_a, col_b = st.columns(2)
 
@@ -251,22 +256,7 @@ with col3:
             st.session_state.current_pair = get_next_pair()
             st.rerun()
 
-    # --- BOTH UNREAD ---
-    if st.button("Haven’t read either", use_container_width=True):
-        st.session_state.unread_books.update([
-            book1["title"],
-            book2["title"]
-        ])
-        record_result(
-            book1,
-            book2,
-            winner=None,
-            book1_unread=True,
-            book2_unread=True
-        )
-        st.session_state.last_winner = "Neither"
-        st.session_state.current_pair = get_next_pair()
-        st.rerun()
+
 
 
 
