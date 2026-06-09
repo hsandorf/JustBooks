@@ -208,8 +208,6 @@ with col3:
    
    st.divider()
    
-   # --- SECONDARY OPTIONS (unread handling) ---
-   st.subheader("Haven't read either? No worries! Select Below")
    # --- BOTH UNREAD ---
    if st.button("Haven’t read either", use_container_width=True):
       st.session_state.unread_books.update([
