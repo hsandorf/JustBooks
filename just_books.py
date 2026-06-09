@@ -238,7 +238,7 @@ with col3:
            )
            st.session_state.last_winner = "Neither"
    
-       elif choice == f"I haven't read: {book1['title']}":
+       elif choice == f"I haven't read {book1['title']}":
            st.session_state.unread_books.add(book1["title"])
            record_result(
                book1,
@@ -248,7 +248,7 @@ with col3:
            )
            st.session_state.last_winner = "Neither"
    
-       elif choice == f"I haven't read: {book2['title']}":
+       elif choice == f"I haven't read {book2['title']}":
            st.session_state.unread_books.add(book2["title"])
            record_result(
                book1,
