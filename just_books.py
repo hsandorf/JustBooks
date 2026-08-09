@@ -65,7 +65,7 @@ df = load_data()
 df["date_read"] = pd.to_datetime(df["date_read"], errors='coerce').dt.strftime("%b %Y")
 
 # ── Constants ─────────────────────────────────────────────────────────────────
-MAX_MATCHES = 75
+MAX_MATCHES = 150
 
 # ── Name gate — don't show matchups until name is entered ─────────────────────
 if "user_name" not in st.session_state:
@@ -78,7 +78,7 @@ if not st.session_state.user_name:
             st.rerun()
         else:
             st.warning("Please enter your name first.")
-    st.stop()
+        st.stop()
 
 # ── Session state initialisation ──────────────────────────────────────────────
 if "unread_books" not in st.session_state:
