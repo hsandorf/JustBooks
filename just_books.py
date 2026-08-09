@@ -61,6 +61,22 @@ df["date_read"] = pd.to_datetime(df["date_read"], errors='coerce').dt.strftime("
 # ── Constants ─────────────────────────────────────────────────────────────────
 MAX_MATCHES = 150
 
+
+# TEMP DEBUG — remove once fixed
+covers_dir = os.path.join(os.path.dirname(__file__), "book_covers")
+actual_files = set(os.listdir(covers_dir))
+
+missing = []
+for path in df["image_path"]:
+    filename = path.split("/", 1)[-1]  # strip "book_covers/" prefix
+    if filename not in actual_files:
+        missing.append(path)
+
+st.write(f"{len(missing)} mismatched paths:")
+for m in missing:
+    st.write(repr(m))
+st.stop()
+
 # ── Name gate — don't show matchups until name is entered ─────────────────────
 if "user_name" not in st.session_state:
     st.session_state.user_name = ""
