@@ -70,15 +70,14 @@ MAX_MATCHES = 150
 # ── Name gate — don't show matchups until name is entered ─────────────────────
 if "user_name" not in st.session_state:
     st.session_state.user_name = ""
-
 if not st.session_state.user_name:
     name = st.text_input("Please enter your name to start ranking books:", key="name_input")
-        if name.strip():
-            st.session_state.user_name = name.strip()
-            st.rerun()
-        else:
-            st.warning("Please enter your name first.")
-        st.stop()
+    if name.strip():
+        st.session_state.user_name = name.strip()
+        st.rerun()
+    else:
+        st.warning("Please enter your name first.")
+    st.stop()
 
 # ── Session state initialisation ──────────────────────────────────────────────
 if "unread_books" not in st.session_state:
