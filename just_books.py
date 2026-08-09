@@ -143,7 +143,7 @@ def save_results():
         "C:\\Users\\hsand\\.vscode\\secrets\\Credentials.json",
         scopes=SCOPES
     ))
-    workbook = gc.open('100 Books')
+    workbook = gc.open('Sci-Fi 100 Books')
     
     try:
         winners_sheet = workbook.worksheet('Winners')
