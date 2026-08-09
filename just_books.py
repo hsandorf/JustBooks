@@ -19,7 +19,7 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 
-st.title("First 100 Acappella Sci-Fi Reads")
+st.title("First 100 A Cappella Books Sci-Fi Club Reads")
 st.write("**THIS APP WORKS BEST IN LANDSCAPE MODE ** Click on the book you enjoyed more, or indicate if you haven't read one or either. "
         "Books you've marked as unread will be removed from your future matchups. "
          f"Your choices will help us create a ranked list of our first 100 reads!")
