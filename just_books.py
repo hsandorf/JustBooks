@@ -57,6 +57,14 @@ def load_data():
     rows = get_worksheet().get_all_records()
     df = pd.DataFrame(rows)
     return df
+    
+@st.cache_data
+def load_data():
+    rows = get_worksheet().get_all_records()
+    df = pd.DataFrame(rows)
+    df.columns = df.columns.str.strip()
+    df["title"] = df["title"].astype(str).str.strip()
+    return df
 
 @st.cache_data
 def load_image(path):
