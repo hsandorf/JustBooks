@@ -19,7 +19,7 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 
-st.title("First 100 Never Judge Reads")
+st.title("First 100 Acappella Sci-Fi Reads")
 st.write("**THIS APP WORKS BEST IN LANDSCAPE MODE ** Click on the book you enjoyed more, or indicate if you haven't read one or either. "
         "Books you've marked as unread will be removed from your future matchups. "
          f"Your choices will help us create a ranked list of our first 100 reads!")
@@ -68,7 +68,7 @@ if "user_name" not in st.session_state:
     st.session_state.user_name = ""
 
 if not st.session_state.user_name:
-    name = st.text_input("Please enter your name. Doesn't have to be your actual name (if you'd rather be anonymous), just something to identify your votes in the results.")
+    name = st.text_input("Please enter your name:")
     if st.button("Start"):
         if name.strip():
             st.session_state.user_name = name.strip()
@@ -138,7 +138,7 @@ def save_results():
     results_df = pd.DataFrame(st.session_state.results)
     
     gc = gspread.authorize(creds)
-    workbook = gc.open('100 Books')
+    workbook = gc.open('Sci-Fi 100 Books')
     
     try:
         winners_sheet = workbook.worksheet('Winners')
