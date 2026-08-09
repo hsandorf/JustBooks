@@ -9,18 +9,28 @@ from google.oauth2.service_account import Credentials
 # ── Page styling ───────────────────────────────────────────────────────────────
 
 st.markdown("""
-   <style>
- [data-testid="stImage"] img {
-    width: 150px;
-    height: 220px;
-    object-fit: contain;
-    background-color: white;
+    <style>
+    [data-testid="stImage"] img {
+        height: 200px;
+        width: 150px;
+        object-fit: cover;
+        }
+    [data-testid="stHorizontalBlock"] > div .stButton button {
+        display: block;
+        margin: 0 auto;
+        max-width: 150px;
+        white-space: normal;
+        word-wrap: break-word;
+    }
+    [data-testid="stHorizontalBlock"] > div {
+        text-align: center;
+    }
     </style>
 """, unsafe_allow_html=True)
 
 
-st.title("First 100 Never Judge Reads")
-st.write("**THIS APP WORKS BEST IN LANDSCAPE MODE ** Click on the book you enjoyed more, or indicate if you haven't read one or either. "
+st.title("First 100 Acapella Sci-Fi Club Reads")
+st.write("Click on the book you enjoyed more, or indicate if you haven't read one or either. "
         "Books you've marked as unread will be removed from your future matchups. "
          f"Your choices will help us create a ranked list of our first 100 reads!")
 
@@ -32,14 +42,13 @@ SCOPES = [
 
 import json
 creds_dict = json.loads(st.secrets["gcp_service_account"])
-creds = Credentials.from_service_account_info(creds_dict, scopes=SCOPES)
 
 @st.cache_resource
 def get_worksheet():
     creds = Credentials.from_service_account_info(creds_dict, scopes=SCOPES)
 
     gc = gspread.authorize(creds)
-    return gc.open('100 Books').sheet1
+    return gc.open('Sci-Fi 100 Books').sheet1
 
 @st.cache_data
 def load_data():
@@ -49,25 +58,21 @@ def load_data():
 
 @st.cache_data
 def load_image(path):
-    import os
-    full_path = os.path.join(os.path.dirname(__file__), path)
-    return Image.open(full_path)
-
+    return Image.open(path)
 
 df = load_data()
 
 df["date_read"] = pd.to_datetime(df["date_read"], errors='coerce').dt.strftime("%b %Y")
 
 # ── Constants ─────────────────────────────────────────────────────────────────
-MAX_MATCHES = 62
+MAX_MATCHES = 75
 
 # ── Name gate — don't show matchups until name is entered ─────────────────────
 if "user_name" not in st.session_state:
     st.session_state.user_name = ""
 
 if not st.session_state.user_name:
-    name = st.text_input("Please enter your name. Doesn't have to be your actual name (if you'd rather be anonymous), just something to identify your votes in the results.")
-    if st.button("Start"):
+    name = st.text_input("Please enter your name to start ranking books:", key="name_input")
         if name.strip():
             st.session_state.user_name = name.strip()
             st.rerun()
@@ -135,7 +140,10 @@ def record_result(book1, book2, winner, book1_unread=False, book2_unread=False):
 def save_results():
     results_df = pd.DataFrame(st.session_state.results)
     
-    gc = gspread.authorize(creds)
+    gc = gspread.authorize(Credentials.from_service_account_file(
+        "C:\\Users\\hsand\\.vscode\\secrets\\Credentials.json",
+        scopes=SCOPES
+    ))
     workbook = gc.open('100 Books')
     
     try:
@@ -166,88 +174,64 @@ st.caption(f"Match {st.session_state.match_count + 1} of {MAX_MATCHES}")
 if st.session_state.last_winner and st.session_state.last_winner != "Neither":
     st.success(f"You chose **{st.session_state.last_winner}**!")
 elif st.session_state.last_winner == "Neither":
-    st.info("Skipped — one or both book unread.")
+    st.info("Skipped — neither book read.")
+
+st.subheader("Which Book Do You Rank Higher?")
 
 # ── Matchup display ───────────────────────────────────────────────────────────
-col1, col2, col3 = st.columns([1,1,2], gap="small")
+col1, col2, col3 = st.columns(3)
 
 with col1:
-
-    st.image(load_image(book1["image_path"]), width=150)
-    st.caption(book1["title"])
+    st.image(load_image(book1["image_path"]))
+    st.subheader(book1["title"])
     st.caption(f'Read: {book1["date_read"]}')
     st.caption(book1["author"])
-    
-with col2:
-
-    st.image(load_image(book2["image_path"]), width=150)
-    st.caption(book2["title"])
-    st.caption(f'Read: {book2["date_read"]}')
-    st.caption(book2["author"])
-   
-
-st.write("") # vertical spacing
-#st.write("")
-
+    if st.button(book1["title"], key="btn1"):
+        record_result(book1, book2, winner=book1["title"])
+        st.session_state.last_winner = book1["title"]
+        st.session_state.current_pair = get_next_pair()
+        st.rerun()
 
 with col3:
+    st.image(load_image(book2["image_path"]))
+    st.subheader(book2["title"])
+    st.caption(f'Read: {book2["date_read"]}')
+    st.caption(book2["author"])
+    if st.button(book2["title"], key="btn2"):
+        record_result(book1, book2, winner=book2["title"])
+        st.session_state.last_winner = book2["title"]
+        st.session_state.current_pair = get_next_pair()
+        st.rerun()
 
-   st.write("Which Book Do You Rank Higher?")
-    # --- MAIN VOTE BUTTONS (big decision) ---
-   if st.button(f"{book1['title']}", use_container_width=True):
-      record_result(book1, book2, winner=book1["title"])
-      st.session_state.last_winner = book1["title"]
-      st.session_state.current_pair = get_next_pair()
-      st.rerun()
-   
-   if st.button(f"{book2['title']}", use_container_width=True):
-      record_result(book1, book2, winner=book2["title"])
-      st.session_state.last_winner = book2["title"]
-      st.session_state.current_pair = get_next_pair()
-      st.rerun()
-   
-   st.divider()
-   
-   # --- BOTH UNREAD ---
-   if st.button("Haven’t read either", use_container_width=True):
-      st.session_state.unread_books.update([
-      book1["title"],
-      book2["title"]
-      ])
-      record_result(
-      book1,
-      book2,
-      winner=None,
-      book1_unread=True,
-      book2_unread=True
-      )
-      st.session_state.last_winner = "Neither"
-      st.session_state.current_pair = get_next_pair()
-      st.rerun()
-   
-   if st.button(f"Haven’t read {book1['title']}", use_container_width=True):
-      st.session_state.unread_books.add(book1["title"])
-      record_result(
-      book1,
-      book2,
-      winner=None,
-      book1_unread=True
-      )
-      st.session_state.last_winner = "Neither"
-      st.session_state.current_pair = get_next_pair()
-      st.rerun()
-   
-   if st.button(f"Haven’t read {book2['title']}", use_container_width=True):
-      st.session_state.unread_books.add(book2["title"])
-      record_result(
-      book1,
-      book2,
-      winner=None,
-      book2_unread=True
-      )
-      st.session_state.last_winner = "Neither"
-      st.session_state.current_pair = get_next_pair()
-      st.rerun()
+with col2:
+    st.write("") # vertical spacing
+    st.write("")
+
+    if st.button("I haven't read either", key="btn3"):
+        st.session_state.unread_books.update([book1["title"], book2["title"]])
+        record_result(book1, book2, winner=None, book1_unread=True, book2_unread=True)
+        st.session_state.last_winner = "Neither"
+        st.session_state.current_pair = get_next_pair()
+        st.rerun()
+
+    if st.button(f" < I haven't read:\n{book1['title']}", key="btn4"):
+        st.session_state.unread_books.add(book1["title"])
+        record_result(book1, book2, winner=None, book1_unread=True)
+        st.session_state.last_winner = "Neither"
+        st.session_state.current_pair = get_next_pair()
+        st.rerun()
+
+    if st.button(f" > I haven't read:\n{book2['title']}", key="btn5"):
+        st.session_state.unread_books.add(book2["title"])
+        record_result(book1, book2, winner=None, book2_unread=True)
+        st.session_state.last_winner = "Neither"
+        st.session_state.current_pair = get_next_pair()
+        st.rerun()
+
+
+
+
+
 
 
 
