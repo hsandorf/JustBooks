@@ -49,6 +49,8 @@ def get_worksheet():
 
     gc = gspread.authorize(creds)
     return gc.open('Sci-Fi 100 Books').sheet1
+    df = load_data()
+    st.write(df.columns.tolist())
 
 @st.cache_data
 def load_data():
