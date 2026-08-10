@@ -59,7 +59,7 @@ df = load_data()
 df["date_read"] = pd.to_datetime(df["date_read"], errors='coerce').dt.strftime("%b %Y")
 
 # ── Constants ─────────────────────────────────────────────────────────────────
-MAX_MATCHES = 50
+MAX_MATCHES = 150
 
 
 # ── Name gate — don't show matchups until name is entered ─────────────────────
